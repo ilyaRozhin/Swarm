@@ -1,11 +1,11 @@
-from torchvision.models import alexnet
+from torchvision.models import resnet152
 import torchvision
 from base import Model
 import cv2
 
 
 if __name__ == "__main__":
-    model = Model(alexnet(weights=torchvision.models.AlexNet_Weights.DEFAULT))
+    model = Model(resnet152(weights=torchvision.models.ResNet152_Weights.IMAGENET1K_V2))
 
     name, _ = model.request(
         cv2.imread("NN/classifiers/test_images/car.jpeg")
@@ -17,4 +17,10 @@ if __name__ == "__main__":
     )
     assert name == "Samoyed", "Bad Dog Test"
 
+    name, _ = model.request(
+        cv2.imread("NN/classifiers/test_images/building.jpg")
+    )
+    assert name == "beacon", "Bad Beacon Test"
+
     model.video_flow(0)
+
