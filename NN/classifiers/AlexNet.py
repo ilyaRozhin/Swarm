@@ -1,11 +1,19 @@
 from torchvision.models import alexnet
 import torchvision
-from base import Model
+from NN.classifiers.BaseClassifier import Model
 import cv2
 
 
+class CurrentModel(Model):
+    def __init__(self):
+        super().__init__(
+            alexnet(
+                weights=torchvision.models.AlexNet_Weights.DEFAULT
+            )
+        )
+
 if __name__ == "__main__":
-    model = Model(alexnet(weights=torchvision.models.AlexNet_Weights.DEFAULT))
+    model = CurrentModel()
 
     name, _ = model.request(
         cv2.imread("NN/classifiers/test_images/car.jpeg")
@@ -17,4 +25,4 @@ if __name__ == "__main__":
     )
     assert name == "Samoyed", "Bad Dog Test"
 
-    model.video_flow(0)
+    #model.video_flow(0)

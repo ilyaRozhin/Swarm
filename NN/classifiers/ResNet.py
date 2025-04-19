@@ -1,11 +1,19 @@
 from torchvision.models import resnet152
 import torchvision
-from base import Model
+from NN.classifiers.BaseClassifier import Model
 import cv2
 
 
+class CurrentModel(Model):
+    def __init__(self):
+        super().__init__(
+            resnet152(
+                weights=torchvision.models.ResNet152_Weights.IMAGENET1K_V2
+            )
+        )
+
 if __name__ == "__main__":
-    model = Model(resnet152(weights=torchvision.models.ResNet152_Weights.IMAGENET1K_V2))
+    model = CurrentModel()
 
     name, _ = model.request(
         cv2.imread("NN/classifiers/test_images/car.jpeg")
@@ -22,5 +30,5 @@ if __name__ == "__main__":
     )
     assert name == "beacon", "Bad Beacon Test"
 
-    model.video_flow(0)
+    #model.video_flow(0)
 
