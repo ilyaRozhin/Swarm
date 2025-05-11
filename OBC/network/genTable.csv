@@ -1,0 +1,6 @@
+droneId,specialization,host,port
+1,Master,196.164.47.237,12500
+2,Router,196.164.47.235,12501
+3,Transmitter,196.164.47.234,12502
+4,Detector,196.164.47.215,12450
+5,Navigator,196.164.47.244,12550

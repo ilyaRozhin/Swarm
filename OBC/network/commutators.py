@@ -1,6 +1,7 @@
 from socket import *
 import pickle
 import threading
+from network.WiFi import WiFiClient, WiFiHotSpot
 
 BUFF_SIZE = 1024
 
@@ -38,17 +39,24 @@ class Server:
         while True:
             if self.blocker.wait():
                 data, _ = self.udp_sock.recvfrom(self.buf_size)
-                self.data.append(data)
+                package = pickle.loads(data)
+                self.data.append(package)
 
 class NetworkNode:
-    def __init__(self, id, host, port):
+    def __init__(self, id, host, port, hotspot=False):
         self.id = id
         self.own_host = host
         self.own_port = port
         self.blocker = threading.Event()
+
+        if hotspot:
+            WiFiHotSpot()
+        else:
+            WiFiClient()
+            
         self.client = Client(id, self.blocker)
         self.server = Server(BUFF_SIZE, self.blocker)
     
     def activate(self):
-        return (threading.Thread(target=self.client.loop), 
-                threading.Thread(target=self.server.loop))
+        return [threading.Thread(target=self.client.loop, daemon=True), 
+                threading.Thread(target=self.server.loop, args=[self.own_host, self.own_port], daemon=True)]

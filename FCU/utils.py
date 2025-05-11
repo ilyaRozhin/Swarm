@@ -10,6 +10,18 @@ from typing import List
 from MAVProxy.modules.lib import mp_util
 from pymavlink.mavutil import location
 
+class ConnectionInfo:
+    def __init__(self, protocol: str, host: str, port: int) -> None:
+        self.protocol: str = protocol
+        self.host: str = host
+        self.port: int = port
+
+    def get_str(self) -> str:
+        return f"{self.protocol}:{self.host}:{self.port}"
+    
+    def get(self):
+        return self.protocol, self.host, self.port
+
 
 class Coordinates:
     def __init__(self, latitude=None, longitude=None):
