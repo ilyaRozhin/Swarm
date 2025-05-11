@@ -1,0 +1,7 @@
+{
+    "impulse_time": 10,
+    "link_type": "RasPi",
+    "trig_pin": 10,
+    "echo_pin": 12,
+    "port_name": ""
+}
